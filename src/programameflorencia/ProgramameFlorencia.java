@@ -30,40 +30,47 @@ public class ProgramameFlorencia {
             }
         long lonVar=Long.valueOf(ent.next(pattern));
         long numVars=0;  
-        long retals=0;int i=0;
+        long retals=0;
+        long ultimRetal=0;
         boolean imposible=false;
+        boolean primero=true;
         while (lonVar!=-1) {
+            
             long nervios=Long.valueOf(ent.next(pattern));
             if(nervios!=-1){
+                primero=false;
                 long segm=Long.valueOf(ent.next(pattern));
                 long lonSegm=Long.valueOf(ent.next(pattern));
-                if(lonSegm>lonVar){
+                if(lonSegm>lonVar || lonSegm==0 || segm==0 || nervios==0){
                     imposible=true;
                     continue;
                 }
-                if(lonSegm==0 || segm==0 || nervios==0) continue;
                 long segmPerVarilla=lonVar/lonSegm;
                 long retalPerVarilla=lonVar%lonSegm;
                 long quantSegm=segm*nervios;
+                if(ultimRetal!=0){
+                    quantSegm-=ultimRetal/lonSegm;
+                    retals=retals-ultimRetal+ultimRetal%lonSegm;
+                }
 
                 numVars+=quantSegm/segmPerVarilla;
-                retals+=numVars*retalPerVarilla;
+                retals+=(quantSegm/segmPerVarilla)*retalPerVarilla;
                 long sobrant=quantSegm%segmPerVarilla;
                 if(sobrant!=0){
                     numVars++;
-                    retals+=lonVar-(sobrant*lonSegm);
+                    ultimRetal=lonVar-(sobrant*lonSegm);
+                    retals+=ultimRetal;
                 }
                 
             }
             else{
-                if(!imposible){ 
-                    if(i==1)System.out.println("5 40");
-                    else System.out.format("%d %d\n", numVars, retals);
-                }
-                else System.out.println("IMPOSIBLE");
+                if(imposible || primero) System.out.println("IMPOSIBLE");
+                else System.out.format("%d %d\n", numVars, retals);
                 numVars=0;  
                 retals=0;
                 imposible=false;
+                primero=true;
+                ultimRetal=0;
                 lonVar=Long.valueOf(ent.next(pattern));
             }
         }
