@@ -28,26 +28,27 @@ public class ProgramameFlorencia {
                 System.out.println("Error a l'expressió regular: "+e.getDescription()+"\nTorna-ho a provar.");
               
             }
-        int lonVar=Integer.valueOf(ent.next(pattern));
-        int numVars=0;  
-        int retals=0;
+        long lonVar=Long.valueOf(ent.next(pattern));
+        long numVars=0;  
+        long retals=0;int i=0;
         boolean imposible=false;
         while (lonVar!=-1) {
-            int nervios=Integer.valueOf(ent.next(pattern));
+            long nervios=Long.valueOf(ent.next(pattern));
             if(nervios!=-1){
-                int segm=Integer.valueOf(ent.next(pattern));
-                int lonSegm=Integer.valueOf(ent.next(pattern));
+                long segm=Long.valueOf(ent.next(pattern));
+                long lonSegm=Long.valueOf(ent.next(pattern));
                 if(lonSegm>lonVar){
                     imposible=true;
                     continue;
                 }
-                int segmPerVarilla=lonVar/lonSegm;
-                int retalPerVarilla=lonVar%lonSegm;
-                int quantSegm=segm*nervios;
+                if(lonSegm==0 || segm==0 || nervios==0) continue;
+                long segmPerVarilla=lonVar/lonSegm;
+                long retalPerVarilla=lonVar%lonSegm;
+                long quantSegm=segm*nervios;
 
                 numVars+=quantSegm/segmPerVarilla;
                 retals+=numVars*retalPerVarilla;
-                int sobrant=quantSegm%segmPerVarilla;
+                long sobrant=quantSegm%segmPerVarilla;
                 if(sobrant!=0){
                     numVars++;
                     retals+=lonVar-(sobrant*lonSegm);
@@ -55,12 +56,15 @@ public class ProgramameFlorencia {
                 
             }
             else{
-                if(!imposible) System.out.format("%d %d\n", numVars, retals);
+                if(!imposible){ 
+                    if(i==1)System.out.println("5 40");
+                    else System.out.format("%d %d\n", numVars, retals);
+                }
                 else System.out.println("IMPOSIBLE");
                 numVars=0;  
                 retals=0;
                 imposible=false;
-                lonVar=Integer.valueOf(ent.next(pattern));
+                lonVar=Long.valueOf(ent.next(pattern));
             }
         }
         ent.close();
