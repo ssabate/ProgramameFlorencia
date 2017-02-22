@@ -37,15 +37,22 @@ public class ProgramameFlorencia {
         while (lV!=-1) {
             
             long nN=Long.valueOf(ent.next(pattern));
-            if(nN!=-1){
+            while(nN!=-1){
                 primero=false;
                 long nS=Long.valueOf(ent.next(pattern));
                 long lS=Long.valueOf(ent.next(pattern));
-                if(imposible) continue;
-                if(lS==0 || nS==0 || nN==0 || lV==0){
+                if(imposible){
+                    nN=Long.valueOf(ent.next(pattern));
                     continue;
                 }
+//                if(lS==0 || nS==0 || nN==0 || lV==0){
+//                    continue;
+//                }
+//                if(lS==0 || nS==0 || nN==0 || lV==0){
+//                    continue;
+//                }
                 if(lS>lV){
+                    nN=Long.valueOf(ent.next(pattern));
                     imposible=true;
                     continue;
                 }
@@ -72,17 +79,18 @@ public class ProgramameFlorencia {
                     ultimRetal=lV-lS*(nSegm%qSV);
                     retals+=ultimRetal;
                 }
+                nN=Long.valueOf(ent.next(pattern));
             }
-            else{
-                if(imposible || primero) System.out.println("IMPOSIBLE");
-                else System.out.format("%d %d\n", nVars, retals);
-                nVars=0;  
-                retals=0;
-                imposible=false;
-                primero=true;
-                ultimRetal=0;
-                lV=Long.valueOf(ent.next(pattern));
-            }
+            
+            if(imposible || primero) System.out.println("IMPOSIBLE");
+            else System.out.println(nVars+" "+retals);
+            nVars=0;  
+            retals=0;
+            imposible=false;
+            primero=true;
+            ultimRetal=0;
+            lV=Long.valueOf(ent.next(pattern));
+
         }
         ent.close();
     }
