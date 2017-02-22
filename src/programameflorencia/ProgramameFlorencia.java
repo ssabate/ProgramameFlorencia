@@ -41,7 +41,7 @@ public class ProgramameFlorencia {
                 primero=false;
                 long segm=Long.valueOf(ent.next(pattern));
                 long lonSegm=Long.valueOf(ent.next(pattern));
-                if(lonSegm>lonVar || lonSegm==0 || segm==0 || nervios==0){
+                if(lonSegm>lonVar || lonSegm==0 || segm==0 || nervios==0 || lonVar==0){
                     imposible=true;
                     continue;
                 }
@@ -49,17 +49,27 @@ public class ProgramameFlorencia {
                 long retalPerVarilla=lonVar%lonSegm;
                 long quantSegm=segm*nervios;
                 if(ultimRetal!=0){
-                    quantSegm-=ultimRetal/lonSegm;
-                    retals=retals-ultimRetal+ultimRetal%lonSegm;
+                    long quantAnt=quantSegm;
+                    quantSegm=(quantSegm-ultimRetal/lonSegm>0?quantSegm-ultimRetal/lonSegm:0);
+                    retals=retals-(quantAnt-quantSegm)*lonSegm;
                 }
 
-                numVars+=quantSegm/segmPerVarilla;
-                retals+=(quantSegm/segmPerVarilla)*retalPerVarilla;
-                long sobrant=quantSegm%segmPerVarilla;
-                if(sobrant!=0){
-                    numVars++;
-                    ultimRetal=lonVar-(sobrant*lonSegm);
-                    retals+=ultimRetal;
+                if(quantSegm<=segmPerVarilla){
+                    if(quantSegm!=0){
+                        numVars++;
+                        retals+=lonVar-(quantSegm*lonSegm);
+                        ultimRetal=lonVar-(quantSegm*lonSegm);
+                    }
+                }
+                else{
+                    numVars+=quantSegm/segmPerVarilla;
+                    retals+=(quantSegm/segmPerVarilla)*retalPerVarilla;
+                    long sobrant=quantSegm%segmPerVarilla;
+                    if(sobrant!=0){
+                        numVars++;
+                        ultimRetal=lonVar-(sobrant*lonSegm);
+                        retals+=ultimRetal;
+                    }
                 }
                 
             }
