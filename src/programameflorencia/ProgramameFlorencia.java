@@ -20,7 +20,7 @@ public class ProgramameFlorencia {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Scanner ent=new Scanner(System.in);;
+        Scanner ent=new Scanner(System.in);
         Pattern pattern=null;
             try{
                 pattern  = Pattern.compile("-?\\d+");
@@ -28,60 +28,58 @@ public class ProgramameFlorencia {
                 System.out.println("Error a l'expressió regular: "+e.getDescription()+"\nTorna-ho a provar.");
               
             }
-        long lonVar=Long.valueOf(ent.next(pattern));
-        long numVars=0;  
+        long lV=Long.valueOf(ent.next(pattern));
+        long nVars=0;  
         long retals=0;
         long ultimRetal=0;
         boolean imposible=false;
         boolean primero=true;
-        while (lonVar!=-1) {
+        while (lV!=-1) {
             
-            long nervios=Long.valueOf(ent.next(pattern));
-            if(nervios!=-1){
+            long nN=Long.valueOf(ent.next(pattern));
+            if(nN!=-1){
                 primero=false;
-                long segm=Long.valueOf(ent.next(pattern));
-                long lonSegm=Long.valueOf(ent.next(pattern));
-                if(lonSegm>lonVar || lonSegm==0 || segm==0 || nervios==0 || lonVar==0){
+                long nS=Long.valueOf(ent.next(pattern));
+                long lS=Long.valueOf(ent.next(pattern));
+                if(imposible) continue;
+                if(lS>lV || lS==0 || nS==0 || nN==0 || lV==0){
                     imposible=true;
                     continue;
                 }
-                long segmPerVarilla=lonVar/lonSegm;
-                long retalPerVarilla=lonVar%lonSegm;
-                long quantSegm=segm*nervios;
-                if(ultimRetal!=0){
-                    long quantAnt=quantSegm;
-                    quantSegm=(quantSegm-ultimRetal/lonSegm>0?quantSegm-ultimRetal/lonSegm:0);
-                    retals=retals-(quantAnt-quantSegm)*lonSegm;
+                long nSegm=nS*nN;
+                if(ultimRetal!=0 && ultimRetal>=lS){
+                    long qSR=ultimRetal/lS;
+                    if(nSegm<=qSR){
+                        ultimRetal-=nSegm*lS;
+                        retals-=nSegm*lS;
+                        nSegm=0;                    
+                    } else {
+                        nSegm-=qSR;
+                        retals-=qSR*lS;
+                        ultimRetal-=qSR*lS;
+                    }
                 }
+                long qSV=lV/lS;
+                nVars+=nSegm/qSV;
+                long rVE=lV%lS;
+                retals+=(nSegm/qSV)*rVE;
 
-                if(quantSegm<=segmPerVarilla){
-                    if(quantSegm!=0){
-                        numVars++;
-                        retals+=lonVar-(quantSegm*lonSegm);
-                        ultimRetal=lonVar-(quantSegm*lonSegm);
-                    }
-                }
-                else{
-                    numVars+=quantSegm/segmPerVarilla;
-                    retals+=(quantSegm/segmPerVarilla)*retalPerVarilla;
-                    long sobrant=quantSegm%segmPerVarilla;
-                    if(sobrant!=0){
-                        numVars++;
-                        ultimRetal=lonVar-(sobrant*lonSegm);
+                if(nSegm%qSV!=0){
+                        nVars++;
+                        ultimRetal=lV-lS*(nSegm%qSV);
                         retals+=ultimRetal;
-                    }
                 }
                 
             }
             else{
                 if(imposible || primero) System.out.println("IMPOSIBLE");
-                else System.out.format("%d %d\n", numVars, retals);
-                numVars=0;  
+                else System.out.format("%d %d\n", nVars, retals);
+                nVars=0;  
                 retals=0;
                 imposible=false;
                 primero=true;
                 ultimRetal=0;
-                lonVar=Long.valueOf(ent.next(pattern));
+                lV=Long.valueOf(ent.next(pattern));
             }
         }
         ent.close();
