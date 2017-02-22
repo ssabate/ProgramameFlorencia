@@ -42,7 +42,10 @@ public class ProgramameFlorencia {
                 long nS=Long.valueOf(ent.next(pattern));
                 long lS=Long.valueOf(ent.next(pattern));
                 if(imposible) continue;
-                if(lS>lV || lS==0 || nS==0 || nN==0 || lV==0){
+                if(lS==0 || nS==0 || nN==0 || lV==0){
+                    continue;
+                }
+                if(lS>lV){
                     imposible=true;
                     continue;
                 }
@@ -65,11 +68,10 @@ public class ProgramameFlorencia {
                 retals+=(nSegm/qSV)*rVE;
 
                 if(nSegm%qSV!=0){
-                        nVars++;
-                        ultimRetal=lV-lS*(nSegm%qSV);
-                        retals+=ultimRetal;
+                    nVars++;
+                    ultimRetal=lV-lS*(nSegm%qSV);
+                    retals+=ultimRetal;
                 }
-                
             }
             else{
                 if(imposible || primero) System.out.println("IMPOSIBLE");
