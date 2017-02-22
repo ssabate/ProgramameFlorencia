@@ -20,7 +20,7 @@ public class ProgramameFlorencia {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Scanner ent=new Scanner(System.in);
+        Scanner ent=new Scanner(System.in);;
         Pattern pattern=null;
             try{
                 pattern  = Pattern.compile("-?\\d+");
