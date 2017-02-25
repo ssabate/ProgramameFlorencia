@@ -33,12 +33,10 @@ public class ProgramameFlorencia {
         long retals=0;
         long ultimRetal=0;
         boolean imposible=false;
-        boolean primero=true;
         while (lV!=-1) {
             
             long nN=Long.valueOf(ent.next(pattern));
             while(nN!=-1){
-                primero=false;
                 long nS=Long.valueOf(ent.next(pattern));
                 long lS=Long.valueOf(ent.next(pattern));
                 if(imposible){
@@ -69,11 +67,15 @@ public class ProgramameFlorencia {
                         ultimRetal-=qSR*lS;
                     }
                 }
+                if(nSegm==0){
+                    nN=Long.valueOf(ent.next(pattern));
+                    continue;
+                }                
                 long qSV=lV/lS;
                 nVars+=nSegm/qSV;
                 long rVE=lV%lS;
                 retals+=(nSegm/qSV)*rVE;
-
+                ultimRetal=rVE;
                 if(nSegm%qSV!=0){
                     nVars++;
                     ultimRetal=lV-lS*(nSegm%qSV);
@@ -82,12 +84,11 @@ public class ProgramameFlorencia {
                 nN=Long.valueOf(ent.next(pattern));
             }
             
-            if(imposible || primero) System.out.println("IMPOSIBLE");
+            if(imposible) System.out.println("IMPOSIBLE");
             else System.out.println(nVars+" "+retals);
             nVars=0;  
             retals=0;
             imposible=false;
-            primero=true;
             ultimRetal=0;
             lV=Long.valueOf(ent.next(pattern));
 
